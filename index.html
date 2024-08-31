@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flood Impact Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #3a8efb, #00c3ff);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px 0;
+            color: #fff;
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            margin: 0;
+            font-weight: 700;
+            animation: fadeInDown 1s;
+        }
+
+        .header p {
+            font-size: 1.3em;
+            animation: fadeInUp 1s;
+            font-weight: 300;
+        }
+
+        .section {
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-out;
+        }
+
+        .section h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #005bb5;
+            font-size: 2em;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8); /* Transparent input fields */
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: #0078d7;
+            box-shadow: 0 0 8px rgba(0, 120, 215, 0.2);
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: rgba(0, 120, 215, 0.8); /* Transparent button */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: rgba(0, 91, 181, 0.8); /* Darken button on hover */
+        }
+
+        .result {
+            text-align: center;
+            padding: 20px;
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5em;
+            }
+
+            .header p {
+                font-size: 1em;
+            }
+
+            .button {
+                font-size: 1em;
+            }
+
+            .result {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Flood Impact Calculator</h1>
+            <p>Calculate the potential impact of floods and assess risks effectively</p>
+        </div>
+
+        <div class="section" id="flood-calculation">
+            <h2>Flood Impact Calculation</h2>
+            <form>
+                <div class="form-group">
+                    <label for="rainfall">Precipitation Amount (in mm):</label> <!-- Updated label -->
+                    <input type="number" id="precipitation" placeholder="Enter precipitation amount"> <!-- Updated id and placeholder -->
+                </div>
+                <div class="form-group">
+                    <label for="areaSize">Region Area (in sq km):</label> <!-- Updated label -->
+                    <input type="number" id="region-area" placeholder="Enter region area"> <!-- Updated id and placeholder -->
+                </div>
+                <button type="button" class="button" onclick="calculateFloodImpact()">Calculate Impact</button>
+                <div id="flood-result" class="result"></div>
+            </form>
+        </div>
+
+        <div class="section" id="flood-assessment">
+            <h2>Flood Assessment</h2>
+            <form>
+                <div class="form-group">
+                    <label for="population">Population Affected:</label>
+                    <input type="number" id="population" placeholder="Enter population affected">
+                </div>
+                <div class="form-group">
+                    <label for="infrastructure">Infrastructure Damage (in $):</label>
+                    <input type="number" id="infrastructure" placeholder="Enter estimated damage cost">
+                </div>
+                <button type="button" class="button" onclick="assessFlood()">Assess Flood</button>
+                <div id="assessment-result" class="result"></div>
+            </form>
+        </div>
+
+        <div class="section" id="impact-calculator">
+            <h2>Flood Impact Calculator</h2>
+            <form>
+                <div class="form-group">
+                    <label for="economic-loss">Economic Loss (in $):</label>
+                    <input type="number" id="economic-loss" placeholder="Enter economic loss">
+                </div>
+                <div class="form-group">
+                    <label for="environmental-impact">Environmental Impact Level:</label>
+                    <select id="environmental-impact">
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+                <button type="button" class="button" onclick="calculateImpact()">Calculate Total Impact</button>
+                <div id="total-impact-result" class="result"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function calculateFloodImpact() {
+            var precipitation = parseFloat(document.getElementById('precipitation').value); // Updated variable name
+            var regionArea = parseFloat(document.getElementById('region-area').value); // Updated variable name
+            var absorptionRate = 0.7; // Example absorption rate factor
+
+            if (isNaN(precipitation) || isNaN(regionArea) || precipitation <= 0 || regionArea <= 0) {
+                document.getElementById('flood-result').innerText = "Please enter valid precipitation and region area values."; // Updated message
+                return;
+            }
+
+            var impact = (precipitation * regionArea * (1 - absorptionRate)).toFixed(2);
+            document.getElementById('flood-result').innerText = "Estimated Flood Impact: " + impact + " units.";
+        }
+
+        function assessFlood() {
+            var population = parseFloat(document.getElementById('population').value);
+            var infrastructure = parseFloat(document.getElementById('infrastructure').value);
+            var severityMultiplier = 1.5; // Factor to adjust severity of impact
+
+            if (isNaN(population) || isNaN(infrastructure) || population <= 0 || infrastructure <= 0) {
+                document.getElementById('assessment-result').innerText = "Please enter valid values for population and infrastructure damage.";
+                return;
+            }
+
+            var assessment = (population * infrastructure * severityMultiplier).toFixed(2);
+            document.getElementById('assessment-result').innerText = "Flood Assessment Score: " + assessment;
+        }
+
+        function calculateImpact() {
+            var economicLoss = parseFloat(document.getElementById('economic-loss').value);
+            var environmentalImpact = document.getElementById('environmental-impact').value;
+            var impactWeight = {
+                "Low": 1,
+                "Medium": 1.5,
+                "High": 2
+            };
+
+            if (isNaN(economicLoss) || economicLoss <= 0) {
+                document.getElementById('total-impact-result').innerText = "Please enter a valid economic loss.";
+                return;
+            }
+
+            var totalImpact = (economicLoss * impactWeight[environmentalImpact]).toFixed(2);
+            document.getElementById('total-impact-result').innerText = "Total Flood Impact: " + totalImpact + " USD, Impact Level: " + environmentalImpact;
+        }
+    </script>
+</body>
+</html>
